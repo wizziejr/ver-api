@@ -1,7 +1,13 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
+from pydantic import BaseModel
 
 app = FastAPI()
+
+class Certificate(BaseModel):
+    cert_id: str
+    name: str
+    qualification: str
 
 db = {
     "P00202469": {"id": "P00202469", "name": "BadLogic", "qualification": "Senior Software Engineer"},
@@ -17,20 +23,21 @@ def read_root():
 @app.get("/certs/all")
 def read_all_certs(offset: int = 0, limit: int = 10):
     """Returns a list of all certificates in the database."""
+    # Convert dict values to a list and slice it
     return list(db.values())[offset:offset + limit]
 
 @app.post("/cert/")
-def create_cert(cert_id: str, name: str, qualification: str):
+def create_cert(cert: Certificate):
     """Creates a new certificate in the database."""
     # Validate the certificate ID format
-    validate_cert(cert_id) 
+    validate_cert(cert.cert_id) 
     
-    if cert_id in db:
+    if cert.cert_id in db:
         raise HTTPException(status_code=400, detail="Certificate ID already exists")
     
-    db[cert_id] = {"id": cert_id, "name": name, "qualification": qualification}
+    db[cert.cert_id] = cert.model_dump()
     
-    return {"message": f"Certificate created for {name}"}
+    return {"message": f"Certificate created for {cert.name}"}
 
 @app.get("/cert/{cert_id}")
 def read_cert(cert_id: str):

@@ -21,7 +21,41 @@
         <button type="submit">Create Certificate</button>
     </form>
 
-    <scrip src="main.js"></scrip>
+    <script>
+        async function createCert(event) {
+            event.preventDefault();
+            const cert_id = document.getElementById("cert_id").value;
+            const name = document.getElementById("name").value;
+            const qualification = document.getElementById("qualification").value;
+
+            try {
+                const response = await fetch("/cert/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        cert_id,
+                        name,
+                        qualification,
+                    }),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    alert(`Error: ${errorData.detail}`);
+                    return;
+                }
+
+                const data = await response.json();
+                alert(data.message);
+                console.log(data);
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred while creating the certificate.");
+            }
+        }
+    </script>
 </body>
 
 </html>
