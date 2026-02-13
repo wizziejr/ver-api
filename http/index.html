@@ -296,7 +296,17 @@
           return;
         }
         const data = await response.json();
-        document.getElementById("all_certs_output").textContent = JSON.stringify(data);
+        
+        // Loop and create catch card for each certificate
+        const outputDiv = document.getElementById("all_certs_output");
+        outputDiv.innerHTML = ""; // Clear previous content
+        data.forEach(cert => {
+          const card = createCard(cert);
+          outputDiv.appendChild(card);
+        });
+        
+        //document.getElementById("all_certs_output").textContent = JSON.stringify(data);
+        
         console.log(data);
       } catch (error) {
         console.error("Error:", error);
