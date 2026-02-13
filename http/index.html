@@ -189,6 +189,11 @@
       const name = document.getElementById("create_cert_name").value;
       const qualification = document.getElementById("qualification").value;
 
+      if (!cert_id || !name || !qualification) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
       try {
         const response = await fetch("/cert/", {
           method: "POST",
@@ -236,6 +241,7 @@
       }
     }
 
+    // Helper function to create a card element for displaying certificate data
     function createCard(data) {
       // Display the certificate data in a card format
       const card = document.createElement("div");
@@ -263,6 +269,11 @@
     async function getCert(event) {
       event.preventDefault();
       const cert_id = document.getElementById("get_cert_id").value;
+      if (!cert_id) {
+        alert("Please enter a certificate ID.");
+        return;
+      }
+
       try {
         const response = await fetch(`/cert/${cert_id}`);
         if (!response.ok) {
@@ -288,6 +299,12 @@
       event.preventDefault();
       const offset = document.getElementById("offset").value;
       const limit = document.getElementById("limit").value;
+
+      if(!offset || !limit) {
+        alert("Please enter both offset and limit values.");
+        return;
+      }
+
       try {
         const response = await fetch(`/certs/all?offset=${offset}&limit=${limit}`);
         if (!response.ok) {
