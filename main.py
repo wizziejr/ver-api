@@ -12,6 +12,24 @@ db = {
 def read_root():
     return {"Hello": "world"}
 
+@app.get("/certs/all")
+def read_all_certs():
+    """Returns a list of all certificates in the database."""
+    return list(db.values())
+
+@app.post("/cert/")
+def create_cert(cert_id: str, name: str, qualification: str):
+    """Creates a new certificate in the database."""
+    # Validate the certificate ID format
+    validate_cert(cert_id) 
+    
+    if cert_id in db:
+        raise HTTPException(status_code=400, detail="Certificate ID already exists")
+    
+    db[cert_id] = {"id": cert_id, "name": name, "qualification": qualification}
+    
+    return {"message": f"Certificate created for {name}"}
+
 @app.get("/cert/{cert_id}")
 def read_cert(cert_id: str):
     """Returns the certificate information for the given certificate ID."""
