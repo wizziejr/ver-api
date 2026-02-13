@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse
 
 app = FastAPI()
 
@@ -10,12 +11,13 @@ db = {
 
 @app.get("/")
 def read_root():
-    return {"Hello": "world"}
+    """Returns HTML file."""
+    return FileResponse("http/index.html")  
 
 @app.get("/certs/all")
-def read_all_certs():
+def read_all_certs(offset: int = 0, limit: int = 10):
     """Returns a list of all certificates in the database."""
-    return list(db.values())
+    return list(db.values())[offset:offset + limit]
 
 @app.post("/cert/")
 def create_cert(cert_id: str, name: str, qualification: str):
