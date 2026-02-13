@@ -10,7 +10,7 @@ db = {
 
 @app.get("/")
 def read_root():
-    return {"Hello": "iiiiii"}
+    return {"Hello": "world"}
 
 @app.get("/cert/{cert_id}")
 def read_cert(cert_id: str):
