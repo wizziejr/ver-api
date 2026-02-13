@@ -3,153 +3,307 @@
 
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VER API</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VER API</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      color: #fff;
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 25px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      padding-bottom: 8px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    label {
+      font-size: 0.9rem;
+      opacity: 0.85;
+    }
+
+    input {
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 0.95rem;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      transition: 0.3s ease;
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    input:focus {
+      background: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 0 0 2px #00c6ff;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      color: white;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 198, 255, 0.4);
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    p {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.3);
+      font-size: 0.85rem;
+      word-wrap: break-word;
+      overflow-x: auto;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 20px 10px;
+      }
+
+      .container {
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+
 </head>
 
 <body>
-    <h1>Admin Panel</h1>
+  <h1>Admin Panel</h1>
 
 
-    <div class="container">
-        <h2>Get Certificate</h2>
-        <form onsubmit="getCert(event)">
-            <label for="cert_id">Certificate ID:</label>
-            <input type="text" id="cert_id" name="cert_id">
-            <button type="submit">Get Certificate</button>
-        </form>
-        <p id="cert_output"></p>
-    </div>
+  <div class="container">
+    <h2>Get Certificate</h2>
+    <form onsubmit="getCert(event)">
+      <label for="get_cert_id">Certificate ID:</label>
+      <input type="text" id="get_cert_id" name="get_cert_id">
+      <button type="submit">Get Certificate</button>
+    </form>
+    <div id="get_cert_output"></div>
+  </div>
 
-    <div class="container">
-        <h2>Get Token</h2>
-        <form onsubmit="getToken(event)">
-            <button type="submit">Get Token</button>
-        </form>
-        <p id="token"></p>
-    </div>
+  <div class="container">
+    <h2>Get Token</h2>
+    <form onsubmit="getToken(event)">
+      <button type="submit">Get Token</button>
+    </form>
+    <p id="token"></p>
+  </div>
 
-    <div class="container">
-        <h2>Create Certificate</h2>
-        <form onsubmit="createCert(event)">
-            <label for="cert_id">Certificate ID:</label>
-            <input type="text" id="cert_id" name="cert_id">
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name">
-            <label for="qualification">Qualification:</label>
-            <input type="text" id="qualification" name="qualification">
-            <button type="submit">Create Certificate</button>
-        </form>
-    </div>
+  <div class="container">
+    <h2>Create Certificate</h2>
+    <form onsubmit="createCert(event)">
+      <label for="create_cert_id">Certificate ID:</label>
+      <input type="text" id="create_cert_id" name="create_cert_id">
+      <label for="create_cert_name">Name:</label>
+      <input type="text" id="create_cert_name" name="create_cert_name">
+      <label for="qualification">Qualification:</label>
+      <input type="text" id="qualification" name="qualification">
+      <button type="submit">Create Certificate</button>
+    </form>
+  </div>
 
-    <div class="container">
-        <h2>Get All Certificates</h2>
-        <form onsubmit="getAllCerts(event)">
-            <label for="offset">Offset:</label>
-            <input type="number" id="offset" name="offset">
-            <label for="limit">Limit:</label>
-            <input type="number" id="limit" name="limit">
-            <button type="submit">Get All Certificates</button>
-        </form>
-        <p id="all_certs_output"></p>
-    </div>
+  <div class="container">
+    <h2>Get All Certificates</h2>
+    <form onsubmit="getAllCerts(event)">
+      <label for="offset">Offset:</label>
+      <input type="number" id="offset" name="offset">
+      <label for="limit">Limit:</label>
+      <input type="number" id="limit" name="limit">
+      <button type="submit">Get All Certificates</button>
+    </form>
+    <p id="all_certs_output"></p>
+  </div>
 
-    <script>
-        async function createCert(event) {
-            event.preventDefault();
-            const cert_id = document.getElementById("cert_id").value;
-            const name = document.getElementById("name").value;
-            const qualification = document.getElementById("qualification").value;
+  <script>
+    async function createCert(event) {
+      event.preventDefault();
+      const cert_id = document.getElementById("create_cert_id").value;
+      const name = document.getElementById("create_cert_name").value;
+      const qualification = document.getElementById("qualification").value;
 
-            try {
-                const response = await fetch("/cert/", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        cert_id,
-                        name,
-                        qualification,
-                    }),
-                });
+      try {
+        const response = await fetch("/cert/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            cert_id,
+            name,
+            qualification,
+          }),
+        });
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    alert(`Error: ${errorData.detail}`);
-                    return;
-                }
-
-                const data = await response.json();
-                alert(data.message);
-                console.log(data);
-            } catch (error) {
-                console.error("Error:", error);
-                alert("An error occurred while creating the certificate.");
-            }
+        if (!response.ok) {
+          const errorData = await response.json();
+          alert(`Error: ${errorData.detail}`);
+          return;
         }
 
-        // Get token
-        async function getToken(event) {
-            event.preventDefault();
-            try {
-                const response = await fetch("/token");
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    alert(`Error: ${errorData.detail}`);
-                    return;
-                }
-                const data = await response.json();
-                document.getElementById("token").textContent = data.token;
-                console.log(data);
-            } catch (error) {
-                console.error("Error:", error);
-                alert("An error occurred while getting the token.");
-            }
-        }
+        const data = await response.json();
+        alert(data.message);
+        console.log(data);
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred while creating the certificate.");
+      }
+    }
 
-        // Get certificate
-        async function getCert(event) {
-            event.preventDefault();
-            const cert_id = document.getElementById("cert_id").value;
-            try {
-                const response = await fetch(`/cert/${cert_id}`);
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    alert(`Error: ${errorData.detail}`);
-                    return;
-                }
-                const data = await response.json();
-                document.getElementById("cert_output").textContent = JSON.stringify(data);
-                console.log(data);
-            } catch (error) {
-                console.error("Error:", error);
-                alert("An error occurred while getting the certificate.");
-            }
+    // Get token
+    async function getToken(event) {
+      event.preventDefault();
+      try {
+        const response = await fetch("/token");
+        if (!response.ok) {
+          const errorData = await response.json();
+          alert(`Error: ${errorData.detail}`);
+          return;
         }
+        const data = await response.json();
+        document.getElementById("token").textContent = data.token;
+        console.log(data);
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred while getting the token.");
+      }
+    }
 
-        // Get all certificates
-        async function getAllCerts(event) {
-            event.preventDefault();
-            const offset = document.getElementById("offset").value;
-            const limit = document.getElementById("limit").value;
-            try {
-                const response = await fetch(`/certs/all?offset=${offset}&limit=${limit}`);
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    alert(`Error: ${errorData.detail}`);
-                    return;
-                }
-                const data = await response.json();
-                document.getElementById("all_certs_output").textContent = JSON.stringify(data);
-                console.log(data);
-            } catch (error) {
-                console.error("Error:", error);
-                alert("An error occurred while getting all certificates.");
-            }
+    function createCard(data) {
+      // Display the certificate data in a card format
+      const card = document.createElement("div");
+      card.style.background = "rgba(255, 255, 255, 0.1)";
+      card.style.padding = "15px";
+      card.style.borderRadius = "10px";
+      card.style.marginTop = "10px";
+      document.getElementById("get_cert_output").innerHTML = "";
+      document.getElementById("get_cert_output").appendChild(card);
+
+      // Text element for user name
+      const nameElement = document.createElement("h3");
+      nameElement.textContent = data.name;
+      card.appendChild(nameElement);
+
+      // Text element for qualification
+      const qualificationElement = document.createElement("p");
+      qualificationElement.textContent = `Qualification: ${data.qualification}`;
+      card.appendChild(qualificationElement);
+
+      return card;
+    }
+
+    // Get certificate
+    async function getCert(event) {
+      event.preventDefault();
+      const cert_id = document.getElementById("get_cert_id").value;
+      try {
+        const response = await fetch(`/cert/${cert_id}`);
+        if (!response.ok) {
+          const errorData = await response.json();
+          alert(`Error: ${errorData.detail}`);
+          return;
         }
-    </script>
+        const data = await response.json();
+
+        const card = createCard(data);
+        document.getElementById("get_cert_output").innerHTML = "";
+        document.getElementById("get_cert_output").appendChild(card);
+
+        console.log(data);
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred while getting the certificate.");
+      }
+    }
+
+    // Get all certificates
+    async function getAllCerts(event) {
+      event.preventDefault();
+      const offset = document.getElementById("offset").value;
+      const limit = document.getElementById("limit").value;
+      try {
+        const response = await fetch(`/certs/all?offset=${offset}&limit=${limit}`);
+        if (!response.ok) {
+          const errorData = await response.json();
+          alert(`Error: ${errorData.detail}`);
+          return;
+        }
+        const data = await response.json();
+        document.getElementById("all_certs_output").textContent = JSON.stringify(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error:", error);
+        alert("An error occurred while getting all certificates.");
+      }
+    }
+  </script>
 </body>
 
 </html>
