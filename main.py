@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
+import random
 
 app = FastAPI()
 
@@ -15,10 +16,22 @@ db = {
     "P00202471": {"id": "P00202471", "name": "Jane Smith", "qualification": "Junior Software Engineer"},
 }
 
+tokens = {
+    "1234567890": {"token": "1234567890"},
+}
+
 @app.get("/")
 def read_root():
     """Returns HTML file."""
     return FileResponse("http/index.html")  
+
+@app.get("/token")
+def get_token():
+    """Returns a token for authentication."""
+    # Generate unique token
+    token = random.randint(1000000000, 9999999999)
+    tokens[token] = {"token": token}
+    return {"token": token}
 
 @app.get("/certs/all")
 def read_all_certs(offset: int = 0, limit: int = 10):
