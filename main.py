@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
@@ -16,23 +16,25 @@ def read_root():
 def read_cert(cert_id: str):
     """Returns the certificate information for the given certificate ID."""
     
-    if not validate_cert(cert_id):
-        return {"error": "Invalid certificate ID format"}
+    # Validate the certificate ID format
+    validate_cert(cert_id)
     
-    if not verify_cert(cert_id):
-        return {"error": "Certificate ID not found in the database"}
+    # Verify that the certificate ID exists in the database
+    verify_cert(cert_id)
     
     return db.get(cert_id)
 
-def verify_cert(cert_id: str) -> bool:
+def verify_cert(cert_id: str):
     """Verifies the certificate ID against the database."""
-    return cert_id in db    
+    if cert_id not in db:
+        raise HTTPException(status_code=404, detail="Certificate ID not found in the database")
 
-def validate_cert(cert_id: str) -> bool:
+def validate_cert(cert_id: str):
     """Validates the certificate ID against the database."""
     
     # If it starts with P00 and is 8 characters long, it's valid
-    if cert_id.startswith("P00") and len(cert_id) == 9:
-        return True
-    else:
-        return False
+    if not cert_id.startswith("P00"):
+        raise HTTPException(status_code=400, detail="Certificate ID must start with 'P00'")
+    
+    if len(cert_id) != 9:
+        raise HTTPException(status_code=400, detail="Certificate ID must be exactly 9 characters long")
